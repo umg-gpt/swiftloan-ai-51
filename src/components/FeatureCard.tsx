@@ -1,6 +1,5 @@
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 interface FeatureCardProps {
@@ -61,16 +60,6 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
         <h3 className="text-xl font-medium mb-3">{title}</h3>
         <p className="text-gray-600 leading-relaxed flex-grow">{description}</p>
       </div>
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes slideUp {
-          from { transform: translateY(20px); }
-          to { transform: translateY(0); }
-        }
-      `}</style>
     </div>
   );
 };
