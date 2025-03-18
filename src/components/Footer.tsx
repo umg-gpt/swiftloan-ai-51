@@ -47,11 +47,11 @@ const Footer: React.FC = () => {
             
             <div>
               <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
-                Legal
+                Connect
               </h3>
               <ul className="space-y-3">
-                <li><a href="#" className="text-gray-600 hover:text-loanai-600 transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-loanai-600 transition-colors">Terms of Service</a></li>
+                <li><a href="https://linkedin.com/in/umangg" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-loanai-600 transition-colors">LinkedIn</a></li>
+                <li><a href="tel:+918660367292" className="text-gray-600 hover:text-loanai-600 transition-colors">+91 8660367292</a></li>
               </ul>
             </div>
           </div>
@@ -61,14 +61,6 @@ const Footer: React.FC = () => {
           <p className="text-gray-500 text-sm">
             © 2023 Loan AI. All rights reserved.
           </p>
-          <div className="mt-4 md:mt-0 flex space-x-6">
-            <a href="#" className="text-gray-500 hover:text-loanai-600 transition-colors text-sm">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-gray-500 hover:text-loanai-600 transition-colors text-sm">
-              Terms of Service
-            </a>
-          </div>
         </div>
       </div>
     </footer>

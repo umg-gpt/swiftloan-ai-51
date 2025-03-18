@@ -74,13 +74,6 @@ const Navbar = () => {
             Contact
           </a>
           <Button 
-            variant="outline" 
-            className="ml-4 text-sm"
-            onClick={() => scrollToSection('contact')}
-          >
-            Login
-          </Button>
-          <Button 
             className="text-sm bg-loanai-600 hover:bg-loanai-700"
             onClick={() => scrollToSection('contact')}
           >
@@ -128,13 +121,6 @@ const Navbar = () => {
             >
               Contact
             </a>
-            <Button 
-              variant="outline" 
-              className="w-full justify-center"
-              onClick={() => scrollToSection('contact')}
-            >
-              Login
-            </Button>
             <Button 
               className="w-full justify-center bg-loanai-600 hover:bg-loanai-700"
               onClick={() => scrollToSection('contact')}
