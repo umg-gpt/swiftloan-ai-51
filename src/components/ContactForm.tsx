@@ -31,7 +31,8 @@ const ContactForm: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
+    // The form will be handled by Netlify's form handling
+    // We still add this code for a better UX
     setTimeout(() => {
       console.log('Form submitted:', formData);
       setIsSubmitting(false);
@@ -60,7 +61,25 @@ const ContactForm: React.FC = () => {
         Have questions or need more information? Fill out the form below and we'll get back to you shortly.
       </p>
       
-      <form onSubmit={handleSubmit} className="space-y-5">
+      {/* Add the data-netlify="true" attribute and name to the form */}
+      <form 
+        name="contact" 
+        method="POST" 
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        onSubmit={handleSubmit} 
+        className="space-y-5"
+      >
+        {/* Hidden field for Netlify forms */}
+        <input type="hidden" name="form-name" value="contact" />
+        
+        {/* Honeypot field to prevent spam */}
+        <p className="hidden">
+          <label>
+            Don't fill this out if you're human: <input name="bot-field" />
+          </label>
+        </p>
+        
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
             Name
