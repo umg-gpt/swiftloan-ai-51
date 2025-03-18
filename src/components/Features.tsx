@@ -8,14 +8,14 @@ const Features: React.FC = () => {
     <section id="features" className="py-24 px-6 md:px-10 relative">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center bg-refresh-50 rounded-full px-3 py-1 mb-5 border border-refresh-100">
-            <span className="text-refresh-700 text-sm font-medium">Our Solution</span>
+          <div className="inline-flex items-center bg-loanai-50 rounded-full px-3 py-1 mb-5 border border-loanai-100">
+            <span className="text-loanai-700 text-sm font-medium">Our Solution</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Reimagine Loan Underwriting with <span className="text-refresh-600">AI</span>
+            Reimagine Loan Underwriting with <span className="text-loanai-600">AI</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Refresh combines advanced Document AI and Decision AI to transform how Indian banks evaluate and approve home loans.
+            Loan AI combines advanced Document AI and Decision AI to transform how Indian banks evaluate and approve home loans.
           </p>
         </div>
         

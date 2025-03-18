@@ -17,8 +17,8 @@ const CTASection: React.FC = () => {
         <div className="glass-card rounded-3xl overflow-hidden">
           <div className="p-8 md:p-16">
             <div className="max-w-3xl mx-auto text-center">
-              <div className="inline-flex items-center bg-refresh-100 rounded-full px-3 py-1 mb-6 border border-refresh-200">
-                <span className="text-refresh-700 text-sm font-medium">Ready to Transform Your Lending</span>
+              <div className="inline-flex items-center bg-loanai-100 rounded-full px-3 py-1 mb-6 border border-loanai-200">
+                <span className="text-loanai-700 text-sm font-medium">Ready to Transform Your Lending</span>
               </div>
               
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
@@ -27,13 +27,13 @@ const CTASection: React.FC = () => {
               
               <p className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
                 As India's housing market expands, only banks that embrace AI technology will maintain 
-                competitive advantage. Join leading Indian banks already transforming their lending with Refresh.
+                competitive advantage. Join leading Indian banks already transforming their lending with Loan AI.
               </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button 
                   size="lg" 
-                  className="bg-refresh-600 hover:bg-refresh-700 text-white font-medium px-8 py-6 rounded-full h-auto w-full sm:w-auto"
+                  className="bg-loanai-600 hover:bg-loanai-700 text-white font-medium px-8 py-6 rounded-full h-auto w-full sm:w-auto"
                 >
                   Schedule a Demo
                   <ArrowRight className="ml-2 h-5 w-5" />

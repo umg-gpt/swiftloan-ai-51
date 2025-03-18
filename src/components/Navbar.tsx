@@ -28,17 +28,17 @@ const Navbar = () => {
     )}>
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center">
-          <a href="/" className="text-2xl font-bold text-refresh-700">
-            Refresh
+          <a href="/" className="text-2xl font-bold text-loanai-700">
+            Loan AI
           </a>
         </div>
         
         <nav className="hidden md:flex items-center space-x-8">
-          <a href="#features" className="text-sm text-gray-700 hover:text-refresh-600 transition-colors">Features</a>
-          <a href="#benefits" className="text-sm text-gray-700 hover:text-refresh-600 transition-colors">Benefits</a>
-          <a href="#impact" className="text-sm text-gray-700 hover:text-refresh-600 transition-colors">Impact</a>
+          <a href="#features" className="text-sm text-gray-700 hover:text-loanai-600 transition-colors">Features</a>
+          <a href="#benefits" className="text-sm text-gray-700 hover:text-loanai-600 transition-colors">Benefits</a>
+          <a href="#impact" className="text-sm text-gray-700 hover:text-loanai-600 transition-colors">Impact</a>
           <Button variant="outline" className="ml-4 text-sm">Login</Button>
-          <Button className="text-sm bg-refresh-600 hover:bg-refresh-700">Request Demo</Button>
+          <Button className="text-sm bg-loanai-600 hover:bg-loanai-700">Request Demo</Button>
         </nav>
         
         <button className="md:hidden" onClick={toggleMobileMenu}>
@@ -55,27 +55,27 @@ const Navbar = () => {
           <div className="flex flex-col p-6 space-y-4">
             <a 
               href="#features" 
-              className="text-gray-700 hover:text-refresh-600 transition-colors"
+              className="text-gray-700 hover:text-loanai-600 transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Features
             </a>
             <a 
               href="#benefits" 
-              className="text-gray-700 hover:text-refresh-600 transition-colors"
+              className="text-gray-700 hover:text-loanai-600 transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Benefits
             </a>
             <a 
               href="#impact" 
-              className="text-gray-700 hover:text-refresh-600 transition-colors"
+              className="text-gray-700 hover:text-loanai-600 transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Impact
             </a>
             <Button variant="outline" className="w-full justify-center">Login</Button>
-            <Button className="w-full justify-center bg-refresh-600 hover:bg-refresh-700">Request Demo</Button>
+            <Button className="w-full justify-center bg-loanai-600 hover:bg-loanai-700">Request Demo</Button>
           </div>
         </div>
       )}

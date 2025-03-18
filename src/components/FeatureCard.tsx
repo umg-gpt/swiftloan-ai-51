@@ -54,7 +54,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
       }}
     >
       <div className="flex flex-col h-full">
-        <div className="rounded-full bg-refresh-50 p-3 w-12 h-12 flex items-center justify-center text-refresh-600 mb-5">
+        <div className="rounded-full bg-loanai-50 p-3 w-12 h-12 flex items-center justify-center text-loanai-600 mb-5">
           {icon}
         </div>
         <h3 className="text-xl font-medium mb-3">{title}</h3>

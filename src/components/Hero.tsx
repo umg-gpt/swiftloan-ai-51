@@ -36,24 +36,24 @@ const Hero: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 md:py-24 w-full">
         <div className="max-w-4xl mx-auto text-center staggered-fade-in">
-          <div className="inline-flex items-center bg-refresh-50 rounded-full px-3 py-1 mb-8 border border-refresh-100">
-            <span className="text-refresh-700 text-sm font-medium">Revolutionizing Home Loans for Indian Banks</span>
+          <div className="inline-flex items-center bg-loanai-50 rounded-full px-3 py-1 mb-8 border border-loanai-100">
+            <span className="text-loanai-700 text-sm font-medium">Revolutionizing Home Loans for Indian Banks</span>
           </div>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             AI-Powered Home Loan Underwriting for the 
-            <span className="text-refresh-600"> Modern Bank</span>
+            <span className="text-loanai-600"> Modern Bank</span>
           </h1>
           
           <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-3xl mx-auto">
-            Refresh transforms slow, manual loan processing into seamless digital journeys. 
+            Loan AI transforms slow, manual loan processing into seamless digital journeys. 
             Cut approval times from weeks to hours, reduce costs, and make smarter lending decisions.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button 
               size="lg" 
-              className="bg-refresh-600 hover:bg-refresh-700 text-white font-medium px-8 py-6 rounded-full h-auto"
+              className="bg-loanai-600 hover:bg-loanai-700 text-white font-medium px-8 py-6 rounded-full h-auto"
             >
               Request a Demo
               <ArrowRight className="ml-2 h-5 w-5" />
