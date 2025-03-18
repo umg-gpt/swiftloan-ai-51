@@ -27,31 +27,57 @@ const ContactForm: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // The form will be handled by Netlify's form handling
-    // We still add this code for a better UX
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      toast.success('Message sent successfully!', {
-        description: "We'll get back to you soon."
-      });
-      
-      // Reset form after 2 seconds
-      setTimeout(() => {
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          message: ''
+    try {
+      // Send a POST request to the Google Apps Script endpoint
+      const response = await fetch(
+        'https://script.google.com/macros/s/AKfycbzAd-1Xi0ot_g6zKjTXr2R7aOULbe5p194Sy4KFeMZyaDnHnPZ0OBKcZ4-i3Rijwqaq/exec',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            Name: formData.name,
+            Email: formData.email,
+            Mobile: formData.phone,
+            Message: formData.message
+          })
+        }
+      );
+
+      if (response.ok) {
+        setIsSuccess(true);
+        toast.success('Message sent successfully!', {
+          description: "We'll get back to you soon."
         });
-        setIsSuccess(false);
-      }, 2000);
-    }, 1500);
+        
+        // Reset form after 2 seconds
+        setTimeout(() => {
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            message: ''
+          });
+          setIsSuccess(false);
+        }, 2000);
+      } else {
+        toast.error('Form submission failed', {
+          description: 'There was a problem submitting your form. Please try again.'
+        });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Form submission error', {
+        description: 'An error occurred while sending your message.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -61,25 +87,10 @@ const ContactForm: React.FC = () => {
         Have questions or need more information? Fill out the form below and we'll get back to you shortly.
       </p>
       
-      {/* Add the data-netlify="true" attribute and name to the form */}
       <form 
-        name="contact" 
-        method="POST" 
-        data-netlify="true"
-        netlify-honeypot="bot-field"
         onSubmit={handleSubmit} 
         className="space-y-5"
       >
-        {/* Hidden field for Netlify forms */}
-        <input type="hidden" name="form-name" value="contact" />
-        
-        {/* Honeypot field to prevent spam */}
-        <p className="hidden">
-          <label>
-            Don't fill this out if you're human: <input name="bot-field" />
-          </label>
-        </p>
-        
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
             Name
@@ -118,6 +129,7 @@ const ContactForm: React.FC = () => {
             id="phone"
             name="phone"
             type="tel"
+            required
             value={formData.phone}
             onChange={handleChange}
             className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-loanai-500 focus:ring-loanai-500"
