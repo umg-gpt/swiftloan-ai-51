@@ -21,6 +21,17 @@ const Navbar = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      window.scrollTo({
+        top: section.offsetTop - 80,
+        behavior: 'smooth'
+      });
+      setIsMobileMenuOpen(false);
+    }
+  };
+
   return (
     <header className={cn(
       'fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 px-6 md:px-10',
@@ -34,11 +45,47 @@ const Navbar = () => {
         </div>
         
         <nav className="hidden md:flex items-center space-x-8">
-          <a href="#features" className="text-sm text-gray-700 hover:text-loanai-600 transition-colors">Features</a>
-          <a href="#benefits" className="text-sm text-gray-700 hover:text-loanai-600 transition-colors">Benefits</a>
-          <a href="#impact" className="text-sm text-gray-700 hover:text-loanai-600 transition-colors">Impact</a>
-          <Button variant="outline" className="ml-4 text-sm">Login</Button>
-          <Button className="text-sm bg-loanai-600 hover:bg-loanai-700">Request Demo</Button>
+          <a 
+            href="#features" 
+            onClick={(e) => { e.preventDefault(); scrollToSection('features'); }}
+            className="text-sm text-gray-700 hover:text-loanai-600 transition-colors"
+          >
+            Features
+          </a>
+          <a 
+            href="#benefits" 
+            onClick={(e) => { e.preventDefault(); scrollToSection('benefits'); }}
+            className="text-sm text-gray-700 hover:text-loanai-600 transition-colors"
+          >
+            Benefits
+          </a>
+          <a 
+            href="#impact" 
+            onClick={(e) => { e.preventDefault(); scrollToSection('impact'); }}
+            className="text-sm text-gray-700 hover:text-loanai-600 transition-colors"
+          >
+            Impact
+          </a>
+          <a 
+            href="#contact" 
+            onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}
+            className="text-sm text-gray-700 hover:text-loanai-600 transition-colors"
+          >
+            Contact
+          </a>
+          <Button 
+            variant="outline" 
+            className="ml-4 text-sm"
+            onClick={() => scrollToSection('contact')}
+          >
+            Login
+          </Button>
+          <Button 
+            className="text-sm bg-loanai-600 hover:bg-loanai-700"
+            onClick={() => scrollToSection('contact')}
+          >
+            Request Demo
+          </Button>
         </nav>
         
         <button className="md:hidden" onClick={toggleMobileMenu}>
@@ -55,27 +102,45 @@ const Navbar = () => {
           <div className="flex flex-col p-6 space-y-4">
             <a 
               href="#features" 
+              onClick={(e) => { e.preventDefault(); scrollToSection('features'); }}
               className="text-gray-700 hover:text-loanai-600 transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
             >
               Features
             </a>
             <a 
               href="#benefits" 
+              onClick={(e) => { e.preventDefault(); scrollToSection('benefits'); }}
               className="text-gray-700 hover:text-loanai-600 transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
             >
               Benefits
             </a>
             <a 
               href="#impact" 
+              onClick={(e) => { e.preventDefault(); scrollToSection('impact'); }}
               className="text-gray-700 hover:text-loanai-600 transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
             >
               Impact
             </a>
-            <Button variant="outline" className="w-full justify-center">Login</Button>
-            <Button className="w-full justify-center bg-loanai-600 hover:bg-loanai-700">Request Demo</Button>
+            <a 
+              href="#contact" 
+              onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}
+              className="text-gray-700 hover:text-loanai-600 transition-colors"
+            >
+              Contact
+            </a>
+            <Button 
+              variant="outline" 
+              className="w-full justify-center"
+              onClick={() => scrollToSection('contact')}
+            >
+              Login
+            </Button>
+            <Button 
+              className="w-full justify-center bg-loanai-600 hover:bg-loanai-700"
+              onClick={() => scrollToSection('contact')}
+            >
+              Request Demo
+            </Button>
           </div>
         </div>
       )}

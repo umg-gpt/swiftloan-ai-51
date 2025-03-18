@@ -23,6 +23,16 @@ const Hero: React.FC = () => {
     document.addEventListener('mousemove', handleMouseMove);
     return () => document.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      window.scrollTo({
+        top: section.offsetTop - 80,
+        behavior: 'smooth'
+      });
+    }
+  };
   
   return (
     <div 
@@ -54,11 +64,17 @@ const Hero: React.FC = () => {
             <Button 
               size="lg" 
               className="bg-loanai-600 hover:bg-loanai-700 text-white font-medium px-8 py-6 rounded-full h-auto"
+              onClick={() => scrollToSection('contact')}
             >
               Request a Demo
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button variant="outline" size="lg" className="px-8 py-6 rounded-full h-auto">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="px-8 py-6 rounded-full h-auto"
+              onClick={() => scrollToSection('features')}
+            >
               Learn More
             </Button>
           </div>

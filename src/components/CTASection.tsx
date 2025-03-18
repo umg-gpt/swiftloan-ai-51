@@ -4,6 +4,16 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 
 const CTASection: React.FC = () => {
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      window.scrollTo({
+        top: section.offsetTop - 80,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <section id="impact" className="py-24 px-6 md:px-10 relative overflow-hidden">
       <div 
@@ -34,6 +44,7 @@ const CTASection: React.FC = () => {
                 <Button 
                   size="lg" 
                   className="bg-loanai-600 hover:bg-loanai-700 text-white font-medium px-8 py-6 rounded-full h-auto w-full sm:w-auto"
+                  onClick={() => scrollToSection('contact')}
                 >
                   Schedule a Demo
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -42,6 +53,7 @@ const CTASection: React.FC = () => {
                   variant="outline" 
                   size="lg" 
                   className="px-8 py-6 rounded-full h-auto w-full sm:w-auto"
+                  onClick={() => scrollToSection('contact')}
                 >
                   Contact Sales
                 </Button>
