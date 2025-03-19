@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
@@ -22,37 +22,21 @@ const ContactForm: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    setIsSubmitting(true);
-    
-    // Format data according to what the Apps Script expects
-    const payload = {
-      Name: formData.name,
-      Email: formData.email,
-      Mobile: formData.phone,
-      Message: formData.message
-    };
-    
-    try {
-      const response = await fetch('https://script.google.com/macros/s/AKfycbzAd-1Xi0ot_g6zKjTXr2R7aOULbe5p194Sy4KFeMZyaDnHnPZ0OBKcZ4-i3Rijwqaq/exec', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload)
-      });
-      
-      const result = await response.json();
-      
-      if (result.result === 'success') {
+  useEffect(() => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+
+    const handleIframeLoad = () => {
+      // Skip the initial iframe load, only process when form is submitting
+      if (isSubmitting) {
         setIsSuccess(true);
         toast.success('Message sent successfully!', {
           description: "We'll get back to you soon."
@@ -69,19 +53,21 @@ const ContactForm: React.FC = () => {
           setIsSuccess(false);
           setIsSubmitting(false);
         }, 2000);
-      } else {
-        toast.error('Failed to send message', {
-          description: 'Please try again later.'
-        });
-        setIsSubmitting(false);
       }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      toast.error('Failed to send message', {
-        description: 'Please try again later.'
-      });
-      setIsSubmitting(false);
-    }
+    };
+
+    iframe.addEventListener('load', handleIframeLoad);
+    return () => iframe.removeEventListener('load', handleIframeLoad);
+  }, [isSubmitting]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formRef.current) return;
+    setIsSubmitting(true);
+    
+    // Submit the form to the iframe target
+    formRef.current.submit();
   };
 
   return (
@@ -91,9 +77,22 @@ const ContactForm: React.FC = () => {
         Have questions or need more information? Fill out the form below and we'll get back to you shortly.
       </p>
       
+      {/* Hidden iframe to capture form submission response */}
+      <iframe 
+        ref={iframeRef}
+        name="hidden_iframe" 
+        id="hidden_iframe"
+        title="Hidden iframe for form submission"
+        style={{ display: 'none' }} 
+      />
+      
       <form 
+        ref={formRef}
         onSubmit={handleSubmit} 
         className="space-y-5"
+        method="POST"
+        action="https://script.google.com/macros/s/AKfycbzAd-1Xi0ot_g6zKjTXr2R7aOULbe5p194Sy4KFeMZyaDnHnPZ0OBKcZ4-i3Rijwqaq/exec"
+        target="hidden_iframe"
       >
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -101,7 +100,7 @@ const ContactForm: React.FC = () => {
           </label>
           <Input
             id="name"
-            name="name"
+            name="Name"
             type="text"
             required
             value={formData.name}
@@ -116,7 +115,7 @@ const ContactForm: React.FC = () => {
           </label>
           <Input
             id="email"
-            name="email"
+            name="Email"
             type="email"
             required
             value={formData.email}
@@ -131,7 +130,7 @@ const ContactForm: React.FC = () => {
           </label>
           <Input
             id="phone"
-            name="phone"
+            name="Mobile"
             type="tel"
             required
             value={formData.phone}
@@ -146,7 +145,7 @@ const ContactForm: React.FC = () => {
           </label>
           <Textarea
             id="message"
-            name="message"
+            name="Message"
             required
             value={formData.message}
             onChange={handleChange}
