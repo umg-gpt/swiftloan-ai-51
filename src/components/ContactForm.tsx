@@ -27,7 +27,13 @@ const ContactForm: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    // Convert form field names to state property names
+    const stateKey = name === 'Name' ? 'name' : 
+                     name === 'Email' ? 'email' : 
+                     name === 'Mobile' ? 'phone' : 
+                     name === 'Message' ? 'message' : name;
+    
+    setFormData(prev => ({ ...prev, [stateKey]: value }));
   };
 
   useEffect(() => {
