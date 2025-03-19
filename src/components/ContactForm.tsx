@@ -33,44 +33,59 @@ const ContactForm: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // Send a POST request with JSON data to the Google Apps Script endpoint
-      const response = await fetch(
-        'https://script.google.com/macros/s/AKfycbzAd-1Xi0ot_g6zKjTXr2R7aOULbe5p194Sy4KFeMZyaDnHnPZ0OBKcZ4-i3Rijwqaq/exec',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            Name: formData.name,
-            Email: formData.email,
-            Mobile: formData.phone,
-            Message: formData.message
-          })
-        }
-      );
-
-      if (response.ok) {
-        setIsSuccess(true);
-        toast.success('Message sent successfully!', {
-          description: "We'll get back to you soon."
+      // Create a form to submit to Google Apps Script - this avoids CORS issues
+      const hiddenForm = document.createElement('form');
+      hiddenForm.method = 'POST';
+      hiddenForm.action = 'https://script.google.com/macros/s/AKfycbzAd-1Xi0ot_g6zKjTXr2R7aOULbe5p194Sy4KFeMZyaDnHnPZ0OBKcZ4-i3Rijwqaq/exec';
+      hiddenForm.target = '_blank'; // Open response in a new tab or handle silently
+      
+      // Create hidden fields for each piece of data
+      const nameField = document.createElement('input');
+      nameField.type = 'hidden';
+      nameField.name = 'Name';
+      nameField.value = formData.name;
+      hiddenForm.appendChild(nameField);
+      
+      const emailField = document.createElement('input');
+      emailField.type = 'hidden';
+      emailField.name = 'Email';
+      emailField.value = formData.email;
+      hiddenForm.appendChild(emailField);
+      
+      const phoneField = document.createElement('input');
+      phoneField.type = 'hidden';
+      phoneField.name = 'Mobile';
+      phoneField.value = formData.phone;
+      hiddenForm.appendChild(phoneField);
+      
+      const messageField = document.createElement('input');
+      messageField.type = 'hidden';
+      messageField.name = 'Message';
+      messageField.value = formData.message;
+      hiddenForm.appendChild(messageField);
+      
+      // Add form to body and submit it
+      document.body.appendChild(hiddenForm);
+      hiddenForm.submit();
+      document.body.removeChild(hiddenForm);
+      
+      // Show success message
+      setIsSuccess(true);
+      toast.success('Message sent successfully!', {
+        description: "We'll get back to you soon."
+      });
+      
+      // Reset form after 2 seconds
+      setTimeout(() => {
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: ''
         });
-        
-        // Reset form after 2 seconds
-        setTimeout(() => {
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            message: ''
-          });
-          setIsSuccess(false);
-        }, 2000);
-      } else {
-        toast.error('Form submission failed', {
-          description: 'There was a problem submitting your form. Please try again.'
-        });
-      }
+        setIsSuccess(false);
+      }, 2000);
+      
     } catch (error) {
       console.error('Error:', error);
       toast.error('Form submission error', {
