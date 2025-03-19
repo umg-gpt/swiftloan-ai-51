@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
@@ -22,50 +22,78 @@ const ContactForm: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Effect to set up iframe load event listener
-  useEffect(() => {
-    const iframe = iframeRef.current;
-    if (!iframe) return;
-
-    const handleIframeLoad = () => {
-      // Skip the initial iframe load
-      if (isSubmitting) {
-        setIsSuccess(true);
-        toast.success('Message sent successfully!', {
-          description: "We'll get back to you soon."
-        });
-        
-        // Reset form after 2 seconds
-        setTimeout(() => {
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            message: ''
-          });
-          setIsSuccess(false);
-          setIsSubmitting(false);
-        }, 2000);
-      }
-    };
-
-    iframe.addEventListener('load', handleIframeLoad);
-    return () => iframe.removeEventListener('load', handleIframeLoad);
-  }, [isSubmitting]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    if (!formRef.current) return;
-    
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmitting(true);
-    // Form will submit to the iframe target, no need to prevent default
+    
+    try {
+      // Create a form to submit to Google Apps Script - this avoids CORS issues
+      const hiddenForm = document.createElement('form');
+      hiddenForm.method = 'POST';
+      hiddenForm.action = 'https://script.google.com/macros/s/AKfycbzAd-1Xi0ot_g6zKjTXr2R7aOULbe5p194Sy4KFeMZyaDnHnPZ0OBKcZ4-i3Rijwqaq/exec';
+      hiddenForm.target = '_blank'; // Open response in a new tab or handle silently
+      
+      // Create hidden fields for each piece of data
+      const nameField = document.createElement('input');
+      nameField.type = 'hidden';
+      nameField.name = 'Name';
+      nameField.value = formData.name;
+      hiddenForm.appendChild(nameField);
+      
+      const emailField = document.createElement('input');
+      emailField.type = 'hidden';
+      emailField.name = 'Email';
+      emailField.value = formData.email;
+      hiddenForm.appendChild(emailField);
+      
+      const phoneField = document.createElement('input');
+      phoneField.type = 'hidden';
+      phoneField.name = 'Mobile';
+      phoneField.value = formData.phone;
+      hiddenForm.appendChild(phoneField);
+      
+      const messageField = document.createElement('input');
+      messageField.type = 'hidden';
+      messageField.name = 'Message';
+      messageField.value = formData.message;
+      hiddenForm.appendChild(messageField);
+      
+      // Add form to body and submit it
+      document.body.appendChild(hiddenForm);
+      hiddenForm.submit();
+      document.body.removeChild(hiddenForm);
+      
+      // Show success message
+      setIsSuccess(true);
+      toast.success('Message sent successfully!', {
+        description: "We'll get back to you soon."
+      });
+      
+      // Reset form after 2 seconds
+      setTimeout(() => {
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: ''
+        });
+        setIsSuccess(false);
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Form submission error', {
+        description: 'An error occurred while sending your message.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -75,22 +103,10 @@ const ContactForm: React.FC = () => {
         Have questions or need more information? Fill out the form below and we'll get back to you shortly.
       </p>
       
-      {/* Hidden iframe to capture form submission */}
-      <iframe 
-        ref={iframeRef}
-        name="hidden_iframe" 
-        title="Hidden iframe for form submission"
-        style={{ display: 'none' }} 
-      />
-      
       <form 
-        ref={formRef}
         onSubmit={handleSubmit} 
         className="space-y-5"
         id="contactForm"
-        method="POST"
-        action="https://script.google.com/macros/s/AKfycbzAd-1Xi0ot_g6zKjTXr2R7aOULbe5p194Sy4KFeMZyaDnHnPZ0OBKcZ4-i3Rijwqaq/exec"
-        target="hidden_iframe"
       >
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -98,7 +114,7 @@ const ContactForm: React.FC = () => {
           </label>
           <Input
             id="name"
-            name="Name" // Changed to match the expected parameter name in Google Script
+            name="name"
             type="text"
             required
             value={formData.name}
@@ -113,7 +129,7 @@ const ContactForm: React.FC = () => {
           </label>
           <Input
             id="email"
-            name="Email" // Changed to match the expected parameter name in Google Script
+            name="email"
             type="email"
             required
             value={formData.email}
@@ -128,7 +144,7 @@ const ContactForm: React.FC = () => {
           </label>
           <Input
             id="phone"
-            name="Mobile" // Changed to match the expected parameter name in Google Script
+            name="phone"
             type="tel"
             required
             value={formData.phone}
@@ -143,7 +159,7 @@ const ContactForm: React.FC = () => {
           </label>
           <Textarea
             id="message"
-            name="Message" // Changed to match the expected parameter name in Google Script
+            name="message"
             required
             value={formData.message}
             onChange={handleChange}
