@@ -1,0 +1,8 @@
+{
+  "name": "loanai",
+  "compatibility_date": "2025-03-24",
+  "assets": {
+    "directory": "./dist"
+  }
+}
+
